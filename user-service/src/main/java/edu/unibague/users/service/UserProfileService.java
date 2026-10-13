@@ -1,10 +1,12 @@
 package edu.unibague.users.service;
 
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.unibague.users.dto.CreateUserRequest;
 import edu.unibague.users.dto.UpdateUserRequest;
 import edu.unibague.users.dto.UserResponse;
+import edu.unibague.users.exception.BadRequestException;
 import edu.unibague.users.exception.ConflictException;
 import edu.unibague.users.exception.ResourceNotFoundException;
 import edu.unibague.users.model.UserProfile;
@@ -19,6 +22,10 @@ import edu.unibague.users.repository.UserProfileRepository;
 
 @Service
 public class UserProfileService {
+
+    // Campos por los que se puede ordenar el listado; otro valor en `sort` respondería 500.
+    private static final Set<String> SORTABLE_FIELDS =
+            Set.of("username", "email", "firstName", "lastName", "createdAt", "updatedAt");
 
     private final UserProfileRepository repository;
 
@@ -47,6 +54,11 @@ public class UserProfileService {
 
     @Transactional(readOnly = true)
     public Page<UserResponse> findAll(Pageable pageable) {
+        for (Sort.Order order : pageable.getSort()) {
+            if (!SORTABLE_FIELDS.contains(order.getProperty())) {
+                throw new BadRequestException("No se puede ordenar por: " + order.getProperty());
+            }
+        }
         return repository.findAll(pageable).map(this::toResponse);
     }
 
