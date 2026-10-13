@@ -11,6 +11,9 @@ Todos los cambios relevantes de este proyecto se documentan en este archivo.
 ### Cambiado
 - CI: se usa el owner en minúsculas para las imágenes de GHCR.
 
+### Corregido
+- El listado de perfiles responde 400 en vez de 500 cuando se ordena por un campo inexistente (#3).
+
 ## [2.0.0]
 
 ### Añadido
