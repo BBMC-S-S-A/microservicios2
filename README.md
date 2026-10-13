@@ -7,7 +7,7 @@ Spring Boot 4.0.8 · Spring Cloud 2025.1.3 (Gateway 5.0.3) · Java 21 · Postgre
 ## Arquitectura
 
 ```
-                 Cliente (Postman / curl)
+                 Cliente (interfaz web / Postman / curl)
                           │
                           ▼
               api-gateway :8080  (Spring Cloud Gateway)
@@ -82,6 +82,8 @@ curl http://localhost:8080/actuator/health
 curl http://localhost:8081/actuator/health
 curl http://localhost:8082/actuator/health
 ```
+
+Interfaz web: abra http://localhost:8080 después de levantar Docker Compose. Inicie sesión como `admin / Admin123!` para ver el directorio paginado o `student / Student123!` para consultar y completar su perfil. También puede registrar nuevas cuentas USER.
 
 Swagger (directo en cada servicio, no por el Gateway):
 
