@@ -1,7 +1,10 @@
 package edu.unibague.users.controller;
 
-import java.util.List;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,9 +56,10 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Lista todos los perfiles (solo ADMIN)")
-    public ResponseEntity<List<UserResponse>> findAll() {
-        return ResponseEntity.ok(service.findAll());
+    @Operation(summary = "Lista perfiles de forma paginada (solo ADMIN)")
+    public ResponseEntity<Page<UserResponse>> findAll(
+            @PageableDefault(size = 20, sort = "createdAt") Pageable pageable) {
+        return ResponseEntity.ok(service.findAll(pageable));
     }
 
     @GetMapping("/{id}")

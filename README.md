@@ -126,6 +126,8 @@ Usuarios de demostración (creados al arrancar auth-service):
 
 Errores: 400 validación · 401 sin token / token inválido / credenciales malas · 403 rol insuficiente · 404 perfil inexistente · 409 duplicado.
 
+La lista de perfiles admite paginación para ADMIN mediante `page` (inicia en 0), `size` (20 por defecto) y `sort` (por ejemplo, `createdAt,desc`). Ejemplo: `GET /api/users?page=0&size=10&sort=createdAt,desc`. La respuesta incluye el contenido de la página y metadatos como `totalElements`, `totalPages` y `number`.
+
 ## Verificar Flyway y persistencia
 
 ```bash
